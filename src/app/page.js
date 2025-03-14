@@ -18,13 +18,17 @@ export default function Moodboard() {
         if (!queryUnsplash.trim()) return;
         setLoadingUnsplash(true);
         try {
-            const response = await fetch(
-                `https://api.unsplash.com/search/photos?query=${queryUnsplash}&per_page=8&client_id=${process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY}`
-            );
+            const response = await fetch("/api/unsplash", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query: queryUnsplash }),
+            });
+
             const data = await response.json();
-            setImages(data.results);
+            setImages(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error("Error fetching images:", error);
+            setImages([]);
         } finally {
             setLoadingUnsplash(false);
         }
