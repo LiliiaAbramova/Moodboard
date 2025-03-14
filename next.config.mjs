@@ -1,9 +1,5 @@
 /** @type {import('next').NextConfig} */
 
-const nextConfig = {
-    plugins: [
-
-    ],
-};
+const nextConfig = {};
 
 export default nextConfig;
