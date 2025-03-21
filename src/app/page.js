@@ -6,6 +6,7 @@ import Gallery from "@/app/components/moodboard/Gallery";
 import Workspace from "@/app/components/moodboard/Workspace";
 import GenerateImageAI from "@/app/components/moodboard/GenerateImageAI";
 import UploadImage from "@/app/components/moodboard/UploadImage";
+import TestLambda from "@/app/components/moodboard/TestLambda";
 
 export default function Moodboard() {
     const [images, setImages] = useState([]);
@@ -84,6 +85,7 @@ export default function Moodboard() {
                     />
                     <GenerateImageAI onAdd={addToWorkspace} />
                     <UploadImage onAdd={addToWorkspace} />
+                    <TestLambda />
                 </div>
 
                 <Workspace

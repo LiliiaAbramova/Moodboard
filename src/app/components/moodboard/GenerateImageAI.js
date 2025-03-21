@@ -7,10 +7,25 @@ export default function GenerateImageAI({onAdd}){
     const { data: session } = useSession();
 
     const [aiImage, setAiImage] = useState(null);
+    const [s3images, setS3Images] = useState([]);
     const [loadingAI, setLoadingAI] = useState(false);
     const [queryAI, setQueryAI] = useState("Nature art");
     const [isGeneratingAI, setIsGeneratingAI] = useState(false);
     const [hasGenerated, setHasGenerated] = useState(false); // limit to one generation
+
+    const fetchImages = async () => {
+        try {
+            const res = await fetch("/api/s3images");
+            const data = await res.json();
+            setS3Images(data);
+        } catch (err) {
+            console.error("Error fetching images:", err);
+        }
+    };
+
+    useEffect(() => {
+        fetchImages();
+    }, []);
 
     const handleGenerateAiImage = async () => {
         if (isGeneratingAI || !queryAI.trim() || hasGenerated) return;
@@ -85,6 +100,16 @@ export default function GenerateImageAI({onAdd}){
                     />
                 </div>
             )}
+
+            <div className="grid grid-cols-3 gap-4 mt-4">
+                {s3images.length > 0 ? (
+                    s3images.map((img) => (
+                        <img key={img.key} src={img.url} alt={img.key} className="w-full h-auto rounded-lg shadow-md" />
+                    ))
+                ) : (
+                    <p className="text-center col-span-3">No images found</p>
+                )}
+            </div>
 
         </div>
     )
