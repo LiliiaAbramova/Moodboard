@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from "react";
+import ImageCard from "@/app/components/moodboard/ImageCard.js";
 
 export default function UploadImage({ onAdd }) {
     const [uploadedImage, setUploadedImage] = useState(null);
@@ -8,18 +9,36 @@ export default function UploadImage({ onAdd }) {
     const handleFileUpload = (e) => {
         const file = e.target.files[0];
         if (file && file.size <= 1 * 1024 * 1024) {
+            /*const reader = new FileReader();
+            reader.onloadend = () => {
+                let img = {
+                    key: 'upload',
+                    urls: {small: reader.result},
+                    alt_description: 'Uploaded Preview'
+                }
+                setUploadedImage(img);
+            };
+            reader.readAsDataURL(file);*/
             const reader = new FileReader();
             reader.onloadend = () => {
-                setUploadedImage(reader.result);
+                const blob = new Blob([reader.result], { type: file.type }); // Створюємо Blob
+                const imageUrl = URL.createObjectURL(blob); // Генеруємо Blob URL
+
+                let img = {
+                    key: 'upload',
+                    urls: { small: imageUrl }, // Використовуємо Blob URL
+                    alt_description: 'Uploaded Preview'
+                };
+                setUploadedImage(img);
             };
-            reader.readAsDataURL(file);
+            reader.readAsArrayBuffer(file);
         } else {
             alert("File size must not exceed 1 MB.");
         }
     };
 
     const handleRemoveImage = () => {
-        setUploadedImage(null); // Очистити завантажене зображення
+        setUploadedImage(null);
     };
 
     return (
@@ -54,12 +73,7 @@ export default function UploadImage({ onAdd }) {
             </div>
             {uploadedImage && (
                 <div className="grid grid-cols-2 gap-2 cursor-pointer">
-                    <img
-                        src={uploadedImage}
-                        alt="Uploaded Preview"
-                        className="w-full h-auto rounded-lg shadow-md object-cover"
-                        onClick={() => onAdd({ urls: { small: uploadedImage } })}
-                    />
+                    <ImageCard key={uploadedImage.key} img={uploadedImage} onClick={() => onAdd(uploadedImage)} />
                 </div>
             )}
         </div>

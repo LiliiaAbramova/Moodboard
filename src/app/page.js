@@ -6,7 +6,6 @@ import Gallery from "@/app/components/moodboard/Gallery";
 import Workspace from "@/app/components/moodboard/Workspace";
 import GenerateImageAI from "@/app/components/moodboard/GenerateImageAI";
 import UploadImage from "@/app/components/moodboard/UploadImage";
-import TestLambda from "@/app/components/moodboard/TestLambda";
 
 export default function Moodboard() {
     const [images, setImages] = useState([]);
@@ -39,9 +38,28 @@ export default function Moodboard() {
         fetchUnsplashImages();
     }, []);
 
-    const addToWorkspace = (img) => {
+    const addToWorkspace = async (img) => {
+        let imageUrl = img.urls.small;
+
+        if (imageUrl.startsWith('http')) {
+            const response = await fetch('/api/proxy', {
+                method: 'GET',
+                headers: { 'X-URL': imageUrl },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch image from proxy');
+            }
+
+            const blob = await response.blob();
+            imageUrl = URL.createObjectURL(blob);
+        }
+
         if (workspaceImages.length < 9) {
-            setWorkspaceImages((prev) => [...prev, img]);
+            setWorkspaceImages((prev) => [
+                ...prev,
+                { ...img, urls: { small: imageUrl } },
+            ]);
         }
     };
 
@@ -69,6 +87,12 @@ export default function Moodboard() {
         }
     };
 
+    const loadImage = async (url) => {
+        const response = await fetch(url, { mode: 'cors' });
+        const blob = await response.blob();
+        return URL.createObjectURL(blob);
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 p-8 flex flex-col items-center">
             <h1 className="text-4xl font-extrabold text-gray-800 mb-6">Moodboard Generator</h1>
@@ -85,7 +109,6 @@ export default function Moodboard() {
                     />
                     <GenerateImageAI onAdd={addToWorkspace} />
                     <UploadImage onAdd={addToWorkspace} />
-                    <TestLambda />
                 </div>
 
                 <Workspace
