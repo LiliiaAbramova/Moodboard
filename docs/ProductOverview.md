@@ -1,125 +1,37 @@
-# Product Overview
+# Project Overview
 
 ## Project Name
 
-AI Moodboard Generator
+Moodboard
 
 ## Project Description
 
-AI Moodboard Generator is a web application that helps users create visual moodboards by combining inspiration images from multiple sources. Users can browse images from Unsplash, generate AI-powered images using text prompts, upload their own images, and organize them into custom collages using an interactive drag-and-drop workspace.
+Moodboard is a web application that allows users to create visual moodboards by combining images from online sources and their own uploaded images.
 
-The application is designed for designers, photographers, marketers, content creators, and anyone who needs a fast and intuitive way to collect visual inspiration.
+The application provides a workspace where users can collect, arrange, edit, and export visual ideas for creative projects.
 
----
+## Target Audience
 
-## Business Goal
+The main users of the application are:
 
-The goal of the application is to simplify the process of creating inspiration boards by providing multiple image sources within a single workspace and allowing users to organize them efficiently.
-
----
-
-## Target Users
-
-- Designers
 - Photographers
-- Content Creators
-- Marketing Specialists
-- Interior Designers
-- Students
+- Designers
+- Creative professionals
+- Content creators
 
----
+## Main Goal
 
-## Main Features
+The goal of the project is to simplify the process of collecting and organizing visual inspiration into a single moodboard.
 
-### Authentication
+Users can:
 
-- Sign in with Google
-- Secure user authentication
-- User session management
-- Sign out
+- Search for inspiration images
+- Upload their own images
+- Arrange images in a workspace
+- Export the final moodboard
 
-### Image Gallery
+## Current Application Status
 
-- Browse images from Unsplash
-- Search images
-- Loading indicator
-- Error handling
+The project is currently focused on MVP 1.
 
-### AI Image Generation
-
-- Generate images using AI prompts
-- Display generation progress
-- Handle generation errors
-
-### Image Upload
-
-- Upload local images
-- Preview uploaded images
-- Remove uploaded images
-
-### Workspace
-
-- Add images by clicking
-- Drag and drop images
-- Move images
-- Delete images
-- Clear workspace
-- Save moodboard
-
-### User Data
-
-- Store user moodboards
-- Save workspace state
-
----
-
-## Technology Stack
-
-### Frontend
-
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-
-### Backend
-
-- AWS Lambda and S3
-
-### Authentication
-
-- Google OAuth
-
-### APIs
-
-- Unsplash API
-- OpenAI API
-
-### Database
-
-(To be updated)
-
----
-
-## Supported Platforms
-
-- Desktop
-- Tablet
-- Mobile
-
----
-
-## User Roles
-
-### Guest
-
-- View landing page
-- Sign in
-- Browse gallery
-- Create moodboards
-- Save moodboards
-
-### Registered User
-
-- Upload images
-- Generate AI images
+AI image generation and subscription features are planned for future releases and are not part of the current testing scope.

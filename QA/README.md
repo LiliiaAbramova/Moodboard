@@ -1,0 +1,1 @@
+The application was used as a practice project for manual QA activities. The repository contains the complete testing documentation created for MVP1, including requirements, traceability matrix, test scenarios, test cases, bug reports, smoke testing, regression testing, and execution results.

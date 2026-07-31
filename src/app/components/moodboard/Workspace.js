@@ -31,6 +31,13 @@ export default function Workspace({ images, onRemove, onSave, onClear, moveImage
                         onDrop={(e) => handleDrop(e, index)}
                     >
                         <img src={img.urls.small} alt={img.alt_description} className="rounded-lg shadow-md w-full h-full object-cover aspect-[3/4]" />
+                        <div className="workspace-author">
+                            © {img.author.name} {img.source === "Unsplash" && (
+                            <>
+                                · by Unsplash
+                            </>
+                        )}
+                        </div>
                         <button onClick={() => onRemove(index)} className="absolute cursor-pointer top-1 right-1 bg-red-500 text-white rounded-full px-2 text-sm opacity-0 group-hover:opacity-100">
                             ✕
                         </button>

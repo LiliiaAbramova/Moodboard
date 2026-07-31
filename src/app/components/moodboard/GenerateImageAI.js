@@ -36,8 +36,9 @@ export default function GenerateImageAI({onAdd}){
             const response = await fetch('/api/generate-ai-image', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: queryAI })
+                body: JSON.stringify({ prompt: queryAI }),
             });
+
             const data = await response.json();
             setAiImage(data.image);
             setHasGenerated(true);

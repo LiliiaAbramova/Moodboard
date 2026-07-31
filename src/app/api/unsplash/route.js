@@ -1,7 +1,7 @@
 export async function POST(req) {
     try {
         const { query } = await req.json();
-        if (!query) {
+         if (!query) {
             return Response.json({ error: "Query is required" }, { status: 400 });
         }
 
@@ -20,7 +20,20 @@ export async function POST(req) {
         }
 
         const data = await response.json();
-        return Response.json(data.results ?? []);
+
+        const formattedResults = data.results.filter(photo => photo.urls && photo.user).map(photo => ({
+            id: photo.id,
+            url: photo.urls.small,
+            alt_description: photo.alt_description,
+
+            author: {
+                name: photo.user.name,
+                profileUrl: photo.user.links.html
+            },
+            source: "Unsplash"
+        }));
+
+        return Response.json(formattedResults);
     } catch (error) {
         console.error("API Error:", error.message);
         return Response.json({ error: error.message }, { status: 500 });

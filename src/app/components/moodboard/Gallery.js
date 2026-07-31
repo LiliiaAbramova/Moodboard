@@ -20,12 +20,17 @@ export default function Gallery({ images, query, setQuery, onSearch, onAdd, load
                     {loading ? "Loading..." : "Search"}
                 </button>
             </div>
-            <div className="grid grid-cols-4 gap-2">
-                {images.map((img, index) => (
-                    <ImageCard key={index} img={img} onClick={() => onAdd(img)} />
+            <p className="text-xs w-full p-2"><i>* Pick for collage</i></p>
+            <div className="grid grid-cols-4 gap-2 items-stretch">
+                {images.map((img) => (
+                    <ImageCard
+                        key={img.id}
+                        img={img}
+                        onClick={() => onAdd(img)}
+                    />
                 ))}
             </div>
-            <p className="text-xs w-full p-2"><i>* Pick for collage</i></p>
+            <p className="text-xs w-full p-2"><i>Photos provided by Unsplash</i></p>
         </div>
     );
 }

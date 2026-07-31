@@ -9,25 +9,21 @@ export default function UploadImage({ onAdd }) {
     const handleFileUpload = (e) => {
         const file = e.target.files[0];
         if (file && file.size <= 1 * 1024 * 1024) {
-            /*const reader = new FileReader();
-            reader.onloadend = () => {
-                let img = {
-                    key: 'upload',
-                    urls: {small: reader.result},
-                    alt_description: 'Uploaded Preview'
-                }
-                setUploadedImage(img);
-            };
-            reader.readAsDataURL(file);*/
             const reader = new FileReader();
             reader.onloadend = () => {
-                const blob = new Blob([reader.result], { type: file.type }); // Створюємо Blob
-                const imageUrl = URL.createObjectURL(blob); // Генеруємо Blob URL
+                const blob = new Blob([reader.result], { type: file.type });
+                const imageUrl = URL.createObjectURL(blob);
+                console.log(imageUrl);
 
                 let img = {
                     key: 'upload',
-                    urls: { small: imageUrl }, // Використовуємо Blob URL
-                    alt_description: 'Uploaded Preview'
+                    url: imageUrl,
+                    alt_description: 'Uploaded Preview',
+                    source: 'Upload image',
+                    author: {
+                        name: 'Unknown author',
+                        profileUrl: '-'
+                    },
                 };
                 setUploadedImage(img);
             };

@@ -1,13 +1,19 @@
 export async function POST(req) {
-    const { prompt } = await req.json();
+    try {
+        const body = await req.json();
+        const { prompt } = body;
 
-    const static_prompt = `A high-quality, aesthetic image of ${prompt}.
+        console.log("Received prompt:", prompt);
+        if (!prompt) {
+            return Response.json({error: "Prompt is required"}, {status: 400});
+        }
+
+        const static_prompt = `A high-quality, aesthetic image of ${prompt}.
 Ultra-detailed, cinematic lighting, soft shadows, high contrast. 
 Using a 50mm f/1.2 lens, film grain texture. 
 Professional composition, depth of field, artistic mood. 
 Trending on ArtStation, hyperrealistic, visually stunning.`;
 
-    try {
         const response = await fetch("https://u17fzn1u03.execute-api.us-east-1.amazonaws.com/dev/", {
             method: "POST",
             headers: {

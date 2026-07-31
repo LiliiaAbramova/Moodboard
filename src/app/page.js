@@ -39,7 +39,7 @@ export default function Moodboard() {
     }, []);
 
     const addToWorkspace = async (img) => {
-        let imageUrl = img.urls.small;
+        let imageUrl = img.url;
 
         if (imageUrl.startsWith('http')) {
             const response = await fetch('/api/proxy', {
@@ -107,7 +107,7 @@ export default function Moodboard() {
                         onAdd={addToWorkspace}
                         loading={loadingUnsplash}
                     />
-                    <GenerateImageAI onAdd={addToWorkspace} />
+                    {/* <GenerateImageAI onAdd={addToWorkspace} /> */}
                     <UploadImage onAdd={addToWorkspace} />
                 </div>
 
