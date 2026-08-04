@@ -7,6 +7,7 @@ export default function Gallery({ images, query, setQuery, onSearch, onAdd, load
             <div className="flex mb-4">
                 <input
                     type="text"
+                    data-testid="search-input"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     className="w-full p-2 border rounded-l-lg border-gray-300"
@@ -14,6 +15,7 @@ export default function Gallery({ images, query, setQuery, onSearch, onAdd, load
                 />
                 <button
                     onClick={onSearch}
+                    data-testid="search-button"
                     className="cursor-pointer bg-blue-500 text-white px-4 rounded-r-lg hover:bg-blue-600"
                     disabled={loading}
                 >
@@ -21,12 +23,13 @@ export default function Gallery({ images, query, setQuery, onSearch, onAdd, load
                 </button>
             </div>
             <p className="text-xs w-full p-2"><i>* Pick for collage</i></p>
-            <div className="grid grid-cols-4 gap-2 items-stretch">
+            <div className="grid grid-cols-4 gap-2 items-stretch ">
                 {images.map((img) => (
                     <ImageCard
-                        key={img.id}
+                        key={img.key}
                         img={img}
                         onClick={() => onAdd(img)}
+                        data-testid="gallery-image"
                     />
                 ))}
             </div>

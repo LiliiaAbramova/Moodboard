@@ -22,7 +22,7 @@ export async function POST(req) {
         const data = await response.json();
 
         const formattedResults = data.results.filter(photo => photo.urls && photo.user).map(photo => ({
-            id: photo.id,
+            key: photo.id,
             url: photo.urls.small,
             alt_description: photo.alt_description,
 

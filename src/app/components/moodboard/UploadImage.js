@@ -48,6 +48,7 @@ export default function UploadImage({ onAdd }) {
                         onChange={handleFileUpload}
                         className="hidden"
                         id="file-upload"
+                        data-testid="upload-input"
                     />
                     <label
                         htmlFor="file-upload"
@@ -69,7 +70,7 @@ export default function UploadImage({ onAdd }) {
             </div>
             {uploadedImage && (
                 <div className="grid grid-cols-2 gap-2 cursor-pointer">
-                    <ImageCard key={uploadedImage.key} img={uploadedImage} onClick={() => onAdd(uploadedImage)} />
+                    <ImageCard data-testid="uploaded-preview" key={uploadedImage.key} img={uploadedImage} onClick={() => onAdd(uploadedImage)} />
                 </div>
             )}
         </div>
