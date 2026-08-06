@@ -2,6 +2,7 @@
   "name": "ai-moodboard",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -9,20 +10,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4",
+    "fs-extra": "^11.3.0",
     "html-to-image": "^1.11.13",
     "jsonwebtoken": "^9.0.2",
-    "next": "15.2.1",
+    "next": "^16.2.12",
     "next-auth": "^4.24.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4.0.11",
-    "@tailwindcss/oxide-linux-x64-gnu": "^4.0.1",
-    "lightningcss-linux-x64-gnu": "^1.29.1"
+    "tailwindcss": "^4.0.11"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.1.2",
     "autoprefixer": "^10.4.20",
+    "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "15.2.1",
     "postcss": "^8.5.3"

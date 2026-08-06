@@ -13,10 +13,20 @@ export default function Moodboard() {
     const [queryUnsplash, setQueryUnsplash] = useState("nature art");
     const [loadingUnsplash, setLoadingUnsplash] = useState(false);
     const collageRef = useRef(null);
+    const [searchMessage, setSearchMessage] = useState('');
 
     const fetchUnsplashImages = async () => {
-        if (!queryUnsplash.trim()) return;
+        const query = queryUnsplash.trim();
+
+        if (!query) {
+            setSearchMessage('Please enter a search query.');
+            setImages([]);
+            return;
+        }
+
         setLoadingUnsplash(true);
+        setSearchMessage('');
+
         try {
             const response = await fetch("/api/unsplash", {
                 method: "POST",
@@ -25,10 +35,30 @@ export default function Moodboard() {
             });
 
             const data = await response.json();
-            setImages(Array.isArray(data) ? data : []);
+            if (!response.ok) {
+                setImages([]);
+                setSearchMessage(
+                    data.error || 'Unable to load images. Please try again later.'
+                );
+                return;
+            }
+
+            const results = Array.isArray(data) ? data : [];
+
+            setImages(results);
+
+            if (results.length === 0) {
+                setSearchMessage(
+                    'No images found. Try a different search query.'
+                );
+            }
         } catch (error) {
-            console.error("Error fetching images:", error);
+            console.error('Error fetching images:', error);
+
             setImages([]);
+            setSearchMessage(
+                'Unable to connect to the server. Please check your connection.'
+            );
         } finally {
             setLoadingUnsplash(false);
         }
@@ -38,9 +68,31 @@ export default function Moodboard() {
         fetchUnsplashImages();
     }, []);
 
-    const addToWorkspace = (img) => {
+    const addToWorkspace = async (img) => {
+        let imageUrl = img.url;
+
+        if (imageUrl.startsWith('http')) {
+            const response = await fetch('/api/proxy', {
+                method: 'GET',
+                headers: { 'X-URL': imageUrl },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch image from proxy');
+            }
+
+            const blob = await response.blob();
+            imageUrl = URL.createObjectURL(blob);
+        }
+
         if (workspaceImages.length < 9) {
-            setWorkspaceImages((prev) => [...prev, img]);
+            setWorkspaceImages((prev) => [
+                ...prev,
+                { ...img,
+                    workspaceKey: crypto.randomUUID(),
+                    url: { small: imageUrl }
+                },
+            ]);
         }
     };
 
@@ -68,6 +120,12 @@ export default function Moodboard() {
         }
     };
 
+    const loadImage = async (url) => {
+        const response = await fetch(url, { mode: 'cors' });
+        const blob = await response.blob();
+        return URL.createObjectURL(blob);
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 p-8 flex flex-col items-center">
             <h1 className="text-4xl font-extrabold text-gray-800 mb-6">Moodboard Generator</h1>
@@ -81,8 +139,9 @@ export default function Moodboard() {
                         onSearch={fetchUnsplashImages}
                         onAdd={addToWorkspace}
                         loading={loadingUnsplash}
+                        searchMessage={searchMessage}
                     />
-                    <GenerateImageAI onAdd={addToWorkspace} />
+                    {/* <GenerateImageAI onAdd={addToWorkspace} /> */}
                     <UploadImage onAdd={addToWorkspace} />
                 </div>
 

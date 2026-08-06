@@ -1,34 +1,30 @@
 export async function POST(req) {
-    const { prompt } = await req.json();
+    try {
+        const body = await req.json();
+        const { prompt } = body;
 
-    const static_prompt = `A high-quality, aesthetic image of ${prompt}.
+        console.log("Received prompt:", prompt);
+        if (!prompt) {
+            return Response.json({error: "Prompt is required"}, {status: 400});
+        }
+
+        const static_prompt = `A high-quality, aesthetic image of ${prompt}.
 Ultra-detailed, cinematic lighting, soft shadows, high contrast. 
 Using a 50mm f/1.2 lens, film grain texture. 
 Professional composition, depth of field, artistic mood. 
 Trending on ArtStation, hyperrealistic, visually stunning.`;
 
-    if (!prompt) {
-        return new Response(JSON.stringify({ error: 'Prompt is required' }), {
-            status: 400,
-            headers: { 'Content-Type': 'application/json' }
-        });
-    }
-
-    try {
-        const response = await fetch('https://api.openai.com/v1/images/generations', {
-            method: 'POST',
+        const response = await fetch("https://u17fzn1u03.execute-api.us-east-1.amazonaws.com/dev/", {
+            method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+                "X-Api-Key": process.env.AWS_KEY_API
             },
             body: JSON.stringify({
-                model: 'dall-e-3',
-                prompt: static_prompt,
-                n: 1,
-                size: '1024x1024',
+                prompt: static_prompt
             }),
         });
-
+        
         const data = await response.json();
 
         if (data.error) {
