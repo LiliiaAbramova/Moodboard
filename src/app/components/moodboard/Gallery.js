@@ -1,6 +1,6 @@
 import ImageCard from "./ImageCard";
 
-export default function Gallery({ images, query, setQuery, onSearch, onAdd, loading }) {
+export default function Gallery({ images, query, setQuery, onSearch, onAdd, loading, searchMessage }) {
     return (
         <div className="w-full bg-white p-4 rounded-lg shadow-md h-fit">
             <h2 className="text-xl font-semibold mb-4">Gallery</h2>
@@ -22,7 +22,16 @@ export default function Gallery({ images, query, setQuery, onSearch, onAdd, load
                     {loading ? "Loading..." : "Search"}
                 </button>
             </div>
-            <p className="text-xs w-full p-2"><i>* Pick for collage</i></p>
+            {searchMessage ? (
+                <div
+                    data-testid="search-message"
+                    className="mt-2 text-sm text-red-500"
+                >
+                    {searchMessage}
+                </div>
+            ) : (
+                <p className="text-xs w-full p-2"><i>* Click an image to add to workspace</i></p>
+            )}
             <div className="grid grid-cols-4 gap-2 items-stretch ">
                 {images.map((img) => (
                     <ImageCard

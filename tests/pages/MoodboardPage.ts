@@ -13,6 +13,8 @@ export class MoodboardPage {
     readonly clearWorkspaceButton: Locator;
     readonly workspaceImageContainers: Locator;
     readonly saveCollageButton: Locator;
+    readonly searchMessage: Locator;
+
 
     constructor(page: Page) {
         this.page = page;
@@ -27,6 +29,7 @@ export class MoodboardPage {
         this.clearWorkspaceButton = page.getByTestId('clear-workspace-button');
         this.workspaceImageContainers = page.getByTestId('workspace-image-container');
         this.saveCollageButton = page.getByTestId('save-collage');
+        this.searchMessage = page.getByTestId('search-message');
     }
 
     async open() {
@@ -70,6 +73,12 @@ export class MoodboardPage {
         await this.galleryImages.first().click();
     }
 
+    async addFirstGalleryImageMultipleTimes(count: number) {
+        for (let i = 0; i < count; i++) {
+            await this.galleryImages.nth(0).click();
+        }
+    }
+
     async expectWorkspaceImageCount(count: number) {
         await expect(this.workspaceImages).toHaveCount(count);
     }
@@ -109,5 +118,8 @@ export class MoodboardPage {
         return await downloadPromise;
     }
 
+    async expectSearchMessage(message: string) {
+        await expect(this.searchMessage).toHaveText(message);
+    }
 
 }

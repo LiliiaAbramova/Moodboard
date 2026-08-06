@@ -23,7 +23,7 @@ export default function Workspace({ images, onRemove, onSave, onClear, moveImage
                 {images.map((img, index) => (
 
                     <div
-                        key={img.key}
+                        key={img.workspaceKey}
                         data-testid="workspace-image-container"
                         data-image-key={img.key}
                         className="relative group cursor-pointer"
@@ -32,7 +32,7 @@ export default function Workspace({ images, onRemove, onSave, onClear, moveImage
                         onDragOver={(e) => e.preventDefault()}
                         onDrop={(e) => handleDrop(e, index)}
                     >
-                        <img data-testid="workspace-image" src={img.urls.small} alt={img.alt_description} className="rounded-lg shadow-md w-full h-full object-cover aspect-[3/4]" />
+                        <img data-testid="workspace-image" src={img.url.small} alt={img.alt_description} className="rounded-lg shadow-md w-full h-full object-cover aspect-[3/4]" />
                         <div className="workspace-author">
                             © {img.author.name} {img.source === "Unsplash" && (
                             <>
